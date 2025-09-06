@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>강화 시스템 시뮬레이터</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>강화 시스템 시뮬레이터</h1>
+        </header>
+
+        <!-- 탭 네비게이션 -->
+        <div class="tab-navigation">
+            <button class="tab-button active" data-tab="simulator">시뮬레이터</button>
+            <button class="tab-button" data-tab="expectation">기댓값 표</button>
+        </div>
+
+        <!-- 시뮬레이터 탭 -->
+        <div id="simulator-tab" class="tab-content active">
+            <div class="game-area">
+            <!-- 소모된 재화 표시 -->
+            <div class="consumed-resources-panel">
+                <h3>총 소모량</h3>
+                <div class="consumed-resources-grid">
+                    <div class="consumed-resource-item">
+                        <span class="consumed-resource-label">소모된 강화 재료:</span>
+                        <span id="consumed-materials" class="consumed-resource-value">0</span>
+                    </div>
+                    <div class="consumed-resource-item">
+                        <span class="consumed-resource-label">소모된 크레딧:</span>
+                        <span id="consumed-credits" class="consumed-resource-value">0</span>
+                    </div>
+                    <div class="consumed-resource-item">
+                        <span class="consumed-resource-label">소모된 다이아:</span>
+                        <span id="consumed-diamonds" class="consumed-resource-value">0</span>
+                    </div>
+                    <div class="consumed-resource-item">
+                        <span class="consumed-resource-label">소모된 초기화권:</span>
+                        <span id="consumed-tickets" class="consumed-resource-value">0</span>
+                    </div>
+                </div>
+                <div class="refund-preview">
+                    <p>초기화 시 환급 예상: 강화 재료 <span id="refund-preview">0</span>개</p>
+                </div>
+            </div>
+
+            <!-- 코어 링크 레벨 -->
+            <div class="core-link-section">
+                <h2>코어 링크 레벨: <span id="core-link-level">0</span></h2>
+                <div class="progress-bar">
+                    <div id="level-progress" class="progress-fill"></div>
+                </div>
+                <p class="success-rate">현재 강화 성공률: <span id="current-success-rate">100%</span></p>
+            </div>
+
+            <!-- 능력치 표시 -->
+            <div class="stats-section">
+                <h2>능력치</h2>
+                <div class="stats-grid">
+                    <div class="stat-item" data-stat="attack">
+                        <span class="stat-name">공격력</span>
+                        <div class="stat-levels">
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                        </div>
+                        <span class="stat-level-text">0/6</span>
+                    </div>
+                    <div class="stat-item" data-stat="defense">
+                        <span class="stat-name">방어력</span>
+                        <div class="stat-levels">
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                        </div>
+                        <span class="stat-level-text">0/6</span>
+                    </div>
+                    <div class="stat-item" data-stat="health">
+                        <span class="stat-name">체력</span>
+                        <div class="stat-levels">
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                        </div>
+                        <span class="stat-level-text">0/6</span>
+                    </div>
+                    <div class="stat-item" data-stat="speed">
+                        <span class="stat-name">속도</span>
+                        <div class="stat-levels">
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                        </div>
+                        <span class="stat-level-text">0/6</span>
+                    </div>
+                    <div class="stat-item" data-stat="critical">
+                        <span class="stat-name">치명타</span>
+                        <div class="stat-levels">
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                        </div>
+                        <span class="stat-level-text">0/6</span>
+                    </div>
+                    <div class="stat-item" data-stat="accuracy">
+                        <span class="stat-name">명중률</span>
+                        <div class="stat-levels">
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                        </div>
+                        <span class="stat-level-text">0/6</span>
+                    </div>
+                    <div class="stat-item" data-stat="evasion">
+                        <span class="stat-name">회피율</span>
+                        <div class="stat-levels">
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                            <div class="level-indicator"></div>
+                        </div>
+                        <span class="stat-level-text">0/6</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 강화 컨트롤 -->
+            <div class="enhancement-controls">
+                <div class="failure-counter">
+                    <span>누적 실패 횟수: <span id="failure-count">0</span>/5</span>
+                </div>
+                <button id="enhance-btn" class="enhance-button">강화 시도</button>
+                <div class="cost-info">
+                    <p>비용: 강화 재료 1개 + 크레딧 30,000</p>
+                </div>
+            </div>
+
+            <!-- 초기화 옵션 -->
+            <div class="reset-section">
+                <h3>초기화 옵션</h3>
+                <div class="reset-options">
+                    <button id="reset-diamond-btn" class="reset-button diamond-reset">
+                        다이아로 초기화 (500 다이아)
+                    </button>
+                    <button id="reset-ticket-btn" class="reset-button ticket-reset">
+                        초기화권으로 초기화 (1개)
+                    </button>
+                </div>
+                <p class="refund-info">초기화 시 소모한 강화 재료의 50% 환급</p>
+                
+                <!-- 전체 초기화 옵션 -->
+                <div class="full-reset-section">
+                    <h4>새로운 분석 시작</h4>
+                    <button id="full-reset-btn" class="reset-button full-reset">
+                        모든 정보 초기화 (새로운 분석 시작)
+                    </button>
+                    <p class="full-reset-info">모든 강화 상태와 소모량을 완전히 초기화합니다</p>
+                </div>
+            </div>
+
+            <!-- 로그 영역 -->
+            <div class="log-section">
+                <h3>강화 로그</h3>
+                <div id="log-container" class="log-container">
+                    <p class="log-entry">시뮬레이터가 시작되었습니다.</p>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- 기댓값 표 탭 -->
+        <div id="expectation-tab" class="tab-content">
+            <div class="expectation-area">
+                <div class="expectation-header">
+                    <h2>강화 시스템 기댓값 표</h2>
+                    <p>각 코어 링크 레벨까지 도달하는데 필요한 평균 재화 소모량과 시도 횟수입니다.</p>
+                </div>
+
+                <div class="expectation-controls">
+                    <div class="control-group">
+                        <label for="reset-method-select">초기화 방법:</label>
+                        <select id="reset-method-select">
+                            <option value="diamond">다이아 (500개)</option>
+                            <option value="ticket">초기화권 (1개)</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="simulation-count-input">시뮬레이션 횟수:</label>
+                        <select id="simulation-count-input">
+                            <option value="10000">10,000회</option>
+                            <option value="50000" selected>50,000회</option>
+                            <option value="100000">100,000회</option>
+                        </select>
+                    </div>
+                    <button id="calculate-expectation-btn" class="calculate-button">기댓값 계산</button>
+                </div>
+
+                <div id="expectation-progress" class="expectation-progress" style="display: none;">
+                    <div class="progress-bar">
+                        <div id="expectation-progress-fill" class="progress-fill"></div>
+                    </div>
+                    <p id="expectation-progress-text">계산 중...</p>
+                </div>
+
+                <div id="expectation-results" class="expectation-results" style="display: none;">
+                    <div class="expectation-table-container">
+                        <table class="expectation-table">
+                            <thead>
+                                <tr>
+                                    <th>레벨</th>
+                                    <th>평균 시도 횟수</th>
+                                    <th>평균 강화 재료</th>
+                                    <th>평균 크레딧</th>
+                                    <th>평균 초기화 횟수</th>
+                                    <th>평균 초기화 비용</th>
+                                    <th>무초기화 도달률</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expectation-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="expectation-summary">
+                        <h3>요약 정보</h3>
+                        <div class="summary-grid">
+                            <div class="summary-item">
+                                <span class="summary-label">계산 시뮬레이션:</span>
+                                <span id="summary-simulations" class="summary-value">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">초기화 방법:</span>
+                                <span id="summary-method" class="summary-value">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">계산 시간:</span>
+                                <span id="summary-time" class="summary-value">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
